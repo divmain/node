@@ -60,6 +60,7 @@
 #include "src/init/v8.h"
 #include "src/json/json-parser.h"
 #include "src/json/json-stringifier.h"
+#include "src/libplatform/tracing/recorder.h"
 #include "src/logging/counters.h"
 #include "src/logging/metrics.h"
 #include "src/logging/tracing-flags.h"
@@ -8537,6 +8538,12 @@ void Isolate::Initialize(Isolate* isolate,
     code_event_handler = i::GDBJITInterface::EventHandler;
   }
 #endif  // ENABLE_GDB_JIT_INTERFACE
+#if defined(V8_TARGET_OS_WIN)
+  if (code_event_handler == nullptr) {
+    code_event_handler = v8::platform::tracing::Recorder::CodeEventHandler;
+  }
+#endif  // defined(V8_TAGRGET_OS_WIN)
+
   if (code_event_handler) {
     i_isolate->InitializeLoggingAndCounters();
     i_isolate->logger()->SetCodeEventHandler(kJitCodeEventDefault,

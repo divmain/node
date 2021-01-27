@@ -4354,6 +4354,7 @@ v8_component("v8_libplatform") {
     sources -= [
       "//base/trace_event/common/trace_event_common.h",
       "src/libplatform/tracing/recorder-default.cc",
+      "src/libplatform/tracing/recorder.h",
       "src/libplatform/tracing/trace-buffer.cc",
       "src/libplatform/tracing/trace-buffer.h",
       "src/libplatform/tracing/trace-object.cc",
@@ -4370,7 +4371,10 @@ v8_component("v8_libplatform") {
     ]
   } else if (is_win) {
     sources -= [ "src/libplatform/tracing/recorder-default.cc" ]
-    sources += [ "src/libplatform/tracing/recorder-win.cc" ]
+    sources += [
+      "src/libplatform/tracing/etw-metadata.h",
+      "src/libplatform/tracing/recorder-win.cc",
+    ]
   }
 }
 

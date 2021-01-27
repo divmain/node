@@ -8,6 +8,7 @@
 #include <stdint.h>
 
 #include "include/libplatform/v8-tracing.h"
+#include "include/v8.h"
 
 namespace v8 {
 namespace platform {
@@ -19,15 +20,17 @@ namespace tracing {
 // the --enable-system-instrumentation command line flag. When enabled, it is
 // called from within SystemInstrumentationTraceWriter and replaces the
 // JSONTraceWriter for event-tracing.
-class Recorder {
+class V8_PLATFORM_EXPORT Recorder {
  public:
   Recorder();
   ~Recorder();
 
-  bool IsEnabled();
-  bool IsEnabled(const uint8_t level);
+  static bool IsEnabled();
+  static bool IsEnabled(const uint8_t level);
 
   void AddEvent(TraceObject* trace_event);
+
+  static void CodeEventHandler(const JitCodeEvent* event);
 };
 
 }  // namespace tracing
